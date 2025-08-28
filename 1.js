@@ -57,14 +57,14 @@ ${method === 'wallet' ? '🔗 رابط المحفظة: ' + walletLink : '🏦 ر
   if (method === 'wallet') {
     response.innerHTML = `
       ✅ تم إرسال البيانات بنجاح.<br>
-      الرجاء الدفع إلى عنوان المحفظة التالي:<br>
-      <strong><a href="https://example.com/wallet" target="_blank">https://example.com/wallet</a></strong>
+تواصل معنا للحصول على رابط المحفظة وتوثيق حسابك:<br>
+      <strong><a href="https://t.me/Muhamad_AlOsaimi" target="_blank">https://example.com/wallet</a></strong>
     `;
   } else if (method === 'bank') {
     response.innerHTML = `
       ✅ تم إرسال البيانات بنجاح.<br>
-      الرجاء تحويل المبلغ إلى رقم الحساب التالي:<br>
-      <strong>SA12345</strong>
+تواصل معنا للحصول على رقم الحساب البنكي وتوثيق حسابك:<br>
+      <strong>https://t.me/Muhamad_AlOsaimi</strong>
     `;
   }
 
