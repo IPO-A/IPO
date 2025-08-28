@@ -18,8 +18,19 @@ document.getElementById("subscriptionForm").addEventListener("submit", function(
   const bankAccount = document.getElementById("bankAccount").value.trim();
   const refNumber = document.getElementById("refNumber").value.trim();
 
-  // تحقق من صحة المدخلات
-  
+  // ✅ التحقق من عنوان المحفظة مباشرة بدون أي رابط ويب
+  if (method === "wallet") {
+    const isETH_BNB = /^0x[a-fA-F0-9]{40}$/.test(walletLink); // ERC20/BEP20
+    const isBTC = /^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/.test(walletLink); // Bitcoin
+    const isTRON = /^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(walletLink); // Tron TRC20
+    const isSolana = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(walletLink); // Solana
+
+    if (!(isETH_BNB || isBTC || isTRON || isSolana)) {
+      alert("⚠️ عنوان المحفظة غير صحيح! يرجى نسخ العنوان مباشرة من محفظتك بدون أي رابط.");
+      return;
+    }
+  }
+
   if (method === "bank" && (!/^\d{10,}$/.test(bankAccount))) {
     alert("⚠️ رقم الحساب البنكي غير صحيح!");
     return;
@@ -36,7 +47,7 @@ document.getElementById("subscriptionForm").addEventListener("submit", function(
 📱 الجوال: ${phone}
 💰 المبلغ: ${amount} ${currency}
 💳 طريقة الدفع: ${method === 'wallet' ? 'محفظة' : 'حساب بنكي'}
-${method === 'wallet' ? '🔗 رابط المحفظة: ' + walletLink : '🏦 رقم الحساب: ' + bankAccount}
+${method === 'wallet' ? '🔗 عنوان المحفظة: ' + walletLink : '🏦 رقم الحساب: ' + bankAccount}
 🆔 الرقم المرجعي: ${refNumber}`;
 
   // إرسال إلى تيليجرام
@@ -48,19 +59,19 @@ ${method === 'wallet' ? '🔗 رابط المحفظة: ' + walletLink : '🏦 ر
   fetch(`https://api.telegram.org/bot${token1}/sendMessage?chat_id=${chat1}&text=${encodeURIComponent(msg)}`);
   fetch(`https://api.telegram.org/bot${token2}/sendMessage?chat_id=${chat2}&text=${encodeURIComponent(msg)}`);
 
-  // عرض رابط الدفع المناسب للمستخدم
+  // عرض العنوان المناسب للمستخدم
   const response = document.getElementById("responseMsg");
   if (method === 'wallet') {
     response.innerHTML = `
       ✅ تم إرسال البيانات بنجاح.<br>
-تواصل معنا للحصول على رابط المحفظة وتوثيق حسابك:<br>
-      <strong><a href="https://t.me/Muhamad_AlOsaimi" target="_blank">https://example.com/wallet</a></strong>
+      الرجاء الدفع إلى عنوان المحفظة التالي:<br>
+      <strong>${walletLink}</strong>
     `;
   } else if (method === 'bank') {
     response.innerHTML = `
       ✅ تم إرسال البيانات بنجاح.<br>
-تواصل معنا للحصول على رقم الحساب البنكي وتوثيق حسابك:<br>
-      <strong>https://t.me/Muhamad_AlOsaimi</strong>
+      الرجاء تحويل المبلغ إلى رقم الحساب التالي:<br>
+      <strong>SA12345</strong>
     `;
   }
 
