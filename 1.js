@@ -19,11 +19,7 @@ document.getElementById("subscriptionForm").addEventListener("submit", function(
   const refNumber = document.getElementById("refNumber").value.trim();
 
   // تحقق من صحة المدخلات
-  if (method === "wallet" && (!walletLink.startsWith("") || walletLink.length < 10)) {
-    alert("⚠️ رابط المحفظة غير صحيح!");
-    return;
-  }
-
+  
   if (method === "bank" && (!/^\d{10,}$/.test(bankAccount))) {
     alert("⚠️ رقم الحساب البنكي غير صحيح!");
     return;
